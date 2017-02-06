@@ -30,12 +30,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import tk.mybatis.springboot.model.Country;
 import tk.mybatis.springboot.service.CountryService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author liuzh
@@ -50,12 +53,12 @@ public class CountryController {
 
     @RequestMapping
     public ModelAndView getAll(Country country) {
-        ModelAndView result = new ModelAndView("index");
-        List<Country> countryList = countryService.getAll(country);
-        result.addObject("pageInfo", new PageInfo<Country>(countryList));
+        ModelAndView result = new ModelAndView("index/index");
+        PageInfo page = countryService.getAll(country);
+        result.addObject("pageInfo", page);
         result.addObject("queryParam", country);
-        result.addObject("page", country.getPage());
-        result.addObject("rows", country.getRows());
+        result.addObject("page", country.getStart());
+        result.addObject("rows", country.getLength());
         return result;
     }
 
@@ -63,6 +66,24 @@ public class CountryController {
     public ModelAndView add() {
         ModelAndView result = new ModelAndView("view");
         result.addObject("country", new Country());
+        return result;
+    }
+
+    @RequestMapping(value = "/blog")
+    public ModelAndView blog() {
+        ModelAndView result = new ModelAndView("blog/blog");
+        return result;
+    }
+
+    @RequestMapping(value = "/listPage")
+    @ResponseBody
+    public Map<String, Object> queryByPage(Country country) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        PageInfo page = countryService.getAll(country);
+        result.put("recordsTotal", page.getTotal());
+        result.put("recordsFiltered", page.getTotal());
+        result.put("ExpenseList", page.getList());
+        result.put("data", page.getList());
         return result;
     }
 

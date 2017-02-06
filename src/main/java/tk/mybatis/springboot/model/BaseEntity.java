@@ -39,10 +39,10 @@ public class BaseEntity {
     private Integer id;
 
     @Transient
-    private Integer page = 1;
+    private Integer start = 1;
 
     @Transient
-    private Integer rows = 10;
+    private Integer length = 10;
 
     public Integer getId() {
         return id;
@@ -52,19 +52,19 @@ public class BaseEntity {
         this.id = id;
     }
 
-    public Integer getPage() {
-        return page;
+    public Integer getStart() {
+        return start;
     }
 
-    public void setPage(Integer page) {
-        this.page = page;
+    public void setStart(Integer start) {
+        this.start = start;
     }
 
-    public Integer getRows() {
-        return rows;
+    public Integer getLength() {
+        return length;
     }
 
-    public void setRows(Integer rows) {
-        this.rows = rows;
+    public void setLength(Integer length) {
+        this.length = length;
     }
 }

@@ -25,6 +25,7 @@
 package tk.mybatis.springboot.service;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.springboot.mapper.CountryMapper;
@@ -42,11 +43,11 @@ public class CountryService {
     @Autowired
     private CountryMapper countryMapper;
 
-    public List<Country> getAll(Country country) {
-        if (country.getPage() != null && country.getRows() != null) {
-            PageHelper.startPage(country.getPage(), country.getRows());
-        }
-        return countryMapper.selectAll();
+    public PageInfo getAll(Country country) {
+        PageHelper.offsetPage(country.getStart(), country.getLength());
+        List<Country> countries = countryMapper.selectAll();
+        PageInfo page = new PageInfo(countries);
+        return page;
     }
 
     public Country getById(Integer id) {

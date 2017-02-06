@@ -1,0 +1,38 @@
+<!-- Horizontal Form -->
+<div class="box box-info">
+    <div class="box-header with-border">
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    <input type="hidden" name="blog.id" value="${(blog.id)!}"/>
+    <div class="box-body">
+        <div class="form-group">
+            <label for="inputTitle" class="col-sm-2 control-label">Email</label>
+
+            <div class="col-sm-6">
+                <input id="inputTitle" class="form-control" type="text" name="blog.title" value="${(blog.title)!}"/>${titleMsg!}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputContent" class="col-sm-2 control-label">Email</label>
+
+            <div class="col-sm-6">
+                <textarea id="inputContent" class="form-control" name="blog.content" cols="80" rows="10">${(blog.content)!}</textarea>${contentMsg!}
+            </div>
+        </div>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer">
+        <div class="col-sm-2">
+        </div>
+        <div class="col-sm-1">
+            <button type="submit" class="btn btn-default">取消</button>
+        </div>
+        <div class="col-sm-1">
+            <button type="submit" class="btn btn-info pull-right">提交</button>
+        </div>
+        <div class="col-sm-8">
+        </div>
+    </div>
+    <!-- /.box-footer -->
+</div>

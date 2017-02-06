@@ -1,0 +1,107 @@
+<#include "/common/_layout.html"/>
+<#assign headerTitle="配置列表">
+<#assign optionalDesc="">
+<@layout>
+<div class="row">
+	<div class="col-sm-3">
+		<input id="searchTitleTxt" type="text" class="form-control" placeholder="">
+	</div>
+    <div class="col-sm-1">
+        <button id="searchBtn" type="button" class="btn btn-block btn-default">查询</button>
+    </div>
+</div>
+<div class="table_box">
+	<table id="example1" class="table table-bordered table-striped" style="width: 100%;">
+		<thead>
+		<tr>
+			<th class="dtCenter">id</th>
+			<th class="dtCenter">标题</th>
+			<th class="dtCenter">状态</th>
+			<th class="dtCenter">操作</th>
+		</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+</div>
+</@layout>
+<script type="text/javascript">
+    var vTable;
+    jQuery(function () {
+        vTable = jQuery("#example1").DataTable({
+            "ajax": {
+                "url": "/blog/pageData",
+                "data": function ( d ) {
+                    return $.extend( {}, d, {
+                        "blog.title": $("#searchTitleTxt").val()
+                    } );
+                }
+            },
+            "language": {
+                "lengthMenu": "_MENU_ 条记录每页",
+                "zeroRecords": "没有找到记录",
+                "info": "第 _PAGE_ 页 ( 总共 _PAGES_ 页 )",
+                "infoEmpty": "无记录",
+                "infoFiltered": "(从 _MAX_ 条记录过滤)",
+                "paginate": {
+                    "sFirst": "首页",
+                    "previous": "上一页",
+                    "next": "下一页",
+                    "sLast": "末页"
+                }
+            },
+            //"dom": '<"top"i>rt<"bottom"flp><"clear">',
+            "dom": 'rt<"row"<"col-sm-2"i><"col-sm-2"l><"col-sm-8"p>>',
+            "pagingType":"full",
+            "bServerSide": true,
+            "bProcessing": true,
+            "searching": false,
+            "orderCellsTop": true,
+            //"scrollY": 350,
+            "columns": [
+                {"data": "id", "bSortable": true},
+                {"data": "title", "bSortable": true},
+                {"data": null, "bSortable": false, "sClass":"dtCenter"},
+                {"data": null, "bSortable": false, "sClass":"dtCenter"}
+            ],
+            "columnDefs": [
+                {
+                    "render": function(data, type, row) {//如果想修改文字 就必须把上面的data也修改为null
+                        if(data["id"] == 1){
+                            return  "未审核";
+                        }else{
+                            return  "审核通过";
+                        }
+                    },
+                    "targets": 2
+                },{
+                    "render": function(data, type, row) {//这里是增加按钮
+                        return  "<a  href='/blog/edit/"+data["id"]+"' class='btn btn-info btn-flat' style='padding: 1px 6px;'>编辑</a>&nbsp;<button type='submit' onclick='edit("+data["id"]+")' class='btn btn-info btn-flat' style='padding: 1px 6px;'>删除</button>";
+
+                    },
+                    "targets": 3
+                }
+
+            ]
+
+        });
+        
+        $("#searchBtn").click(function () {
+            vTable.ajax.reload();
+        });
+    });
+    /**
+     * 修改数据(修改条件是状态为未审核的)
+     * @param id
+     */
+    function edit(id) {
+        alert(id);
+    }
+    /**
+     * 删除数据(删除条件是状态为未审核的)
+     * @param id
+     */
+    function del(id) {
+        alert(id);
+    }
+</script>
